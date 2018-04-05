@@ -1,3 +1,9 @@
+apache-maven-3.5.2/
+Main-Project/
+mysql/
+tomcat/
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
