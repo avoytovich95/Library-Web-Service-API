@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class Data {
     public static String getSQL() { return "jdbc:mysql://localhost:3306/librarydb?useSSL=false"; }
     public static String getSQLUser() { return "libraryweb"; }
-    public static String getSQLPass() { return ""; }
+    public static String getSQLPass() { return "13451460v"; }
 
     public static long getDays(String date)throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMddyyyy");

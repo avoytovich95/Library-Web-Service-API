@@ -12,7 +12,7 @@ import java.sql.*
 object Api {
     const val sql = "jdbc:mysql://localhost:3306/librarydb?useSSL=false"
     const val usr = "libraryweb"
-    const val pas = ""
+    const val pas = "13451460v"
     const val cls = "com.mysql.jdbc.Driver"
 
     fun lateFee(body: String): ObjectNode {
