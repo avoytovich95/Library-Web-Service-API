@@ -52,7 +52,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="30620" />
+    <option name="totalTimeSeconds" value="30649" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -567,12 +567,12 @@
       <workItem from="1523995038469" duration="1437000" />
       <workItem from="1524004607460" duration="220000" />
       <workItem from="1524169549430" duration="1316000" />
-      <workItem from="1524497788607" duration="176000" />
+      <workItem from="1524497788607" duration="205000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59837000" />
+    <option name="totallyTimeSpent" value="59866000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />

@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit
  */
 object Data {
 
-    private val upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    private const val upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     private val lower = upper.toLowerCase()
-    private val digits = "0123456789"
+    private const val digits = "0123456789"
     private val alphanum = upper + lower + digits
 
     fun randString(size: Int): String {
