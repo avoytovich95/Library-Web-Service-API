@@ -14,11 +14,13 @@ object GuestView {
         var node: ObjectNode
         for (i in 0 until guests.size step 3) {
             node = map.createObjectNode()
-            array.add( node.run {
-                node.put("id", guests[i])
-                node.put("first", guests[i+1])
-                node.put("last", guests[i+2])
-            } )
+            array.add(
+                    node.run {
+                        node.put("id", guests[i])
+                        node.put("first", guests[i+1])
+                        node.put("last", guests[i+2])
+                    }
+            )
         }
         return array
     }

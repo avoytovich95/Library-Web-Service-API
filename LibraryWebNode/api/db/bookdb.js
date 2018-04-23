@@ -8,55 +8,13 @@ const conn = mysql.createConnection({
 });
 conn.connect((err) => {
     if (err) throw err;
-    console.log('mysql connected!');
+    console.log('mysql books connected!');
 });
-
-// const {Client} = require('pg');
-// const client = new Client({
-//     user: 'libraryweb',
-//     host: 'localhost',
-//     database: 'librarydb',
-//     password: '13451460v',
-//     port: '3306'
-// });
-
-// const client = new cl.Client('postgres://librarydb:13451460v@localhost:3306/librarydb');
-// client.connect();
-
 
 module.exports = {
 
-    // getBooks:() => {
-    //     console.log('running query');
-    //     res = client.query('SELECT * FROM books', (err, res) => {
-    //         console.log(res);
-    //     });
-    // }
-
-    // getBook:(bookId, callback) => {
-    //     conn.connect((err) => {
-    //         if (err) throw err;
-    //         conn.query('SELECT * FROM books WHERE id = ' + bookId, (err, result, fields) => {
-    //             if (err) throw err;
-    //             return result;
-    //         });
-    //         console.log('connected');
-    //     });
-    // },
-
-    // getBooks:(callback) => {
-    //     var res = [];
-    //     conn.query('SELECT * FROM books', (err, result, fields) => {
-    //         if (err) throw err;
-    //         for (i = 0; i < result.length; i++) {
-    //             res.push(result[i]);
-    //         }
-    //         callback(res);
-    //     });
-    // }
-
     getBooks: () => {
-        return new Promise((resolve, reject) =>{
+        return new Promise((resolve, reject) => {
             conn.query('SELECT * FROM books', (err, result) =>{
                 if (err) reject(err);
                 resolve(result);
@@ -64,5 +22,39 @@ module.exports = {
         })
         .then(res => res)
         .catch(err => {console.log(err)});
+    },
+
+    getBook: (id) => {
+        return new Promise((resolve, reject) => {
+            conn.query('SELECT * FROM books WHERE id = ' + id, (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+        })
+        .then(res => res)
+        .catch(err => {console.log(err)});
+    },
+
+    addBook: (id, title, author, year) => {
+        conn.query("INSERT INTO books VALUES " +
+        "(" + id + ", \'" + title + "\', \'" + author + "\', " + year + ", false, \'\', \'\')",
+        (err) => {if (err) console.log(err);});
+    },
+
+    deleteBook: (id) => {
+        conn.query("DELETE FROM books WHERE id = " + id, (err) => {
+            if (err) console.log(err);
+        });
+    },
+
+    getCurrentId: () => {
+        return new Promise((resolve, reject) => {
+            conn.query('SELECT MAX(id) AS id FROM books', (err, result) => {
+                if(err) reject(err);
+                resolve(result);
+            });
+        })
+        .then(res => res)
+        .catch(err => {console.log(err);});
     }
 };

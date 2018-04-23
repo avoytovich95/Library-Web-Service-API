@@ -1,0 +1,13 @@
+server:
+  type: simple
+  applicationContextPath: /library/
+  connector:
+    type: http
+    port: 9999
+  rootPath: /
+
+Database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  user: libraryweb
+  password:
+  url: jdbc:mysql://localhost:3306/librarywizard

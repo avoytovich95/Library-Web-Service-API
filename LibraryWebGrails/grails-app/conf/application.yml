@@ -105,7 +105,7 @@ environments:
             dbCreate: update
             url: jdbc:mysql://localhost:3306/librarygrails?useSSL=true
             username: libraryweb
-            password: 13451460v
+            password:
     test:
         dataSource:
             dbCreate: update

@@ -1,6 +1,6 @@
 module.exports = {
 
-    getBooks: (books) =>{
+    getBooks: (books) => {
         // console.log(books);
         var array = [];
         var status;
@@ -16,5 +16,24 @@ module.exports = {
             });
         }
         return array;
+    },
+
+    addBook: (id, bookData) => {
+        return {
+            id: id,
+            title: bookData.title,
+            author: bookData.author,
+            year: bookData.bookYear
+        };
+    },
+
+    deleteBook: (id, bookData) => {
+        return {
+            status: "deleted",
+            id: id,
+            title: bookData.title,
+            author: bookData.author,
+            year: bookData.year
+        };
     }
 }

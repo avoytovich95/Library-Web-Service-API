@@ -4,16 +4,12 @@ var bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
-
 const activityRoutes = require('./api/routes/activity');
 const bookRoutes = require('./api/routes/book');
-
-app.use('/products', productRoutes);
-app.use('/orders', orderRoutes);
+const guestRoutes = require('./api/routes/guest');
 
 app.use('/library', activityRoutes);
 app.use('/library/book', bookRoutes);
+app.use('/library/guest', guestRoutes);
 
 module.exports = app;
