@@ -36,5 +36,7 @@ public class Library extends Application<LibraryConfig> {
         environment.jersey().register(book);
         GuestController guest = new GuestController(jdbi);
         environment.jersey().register(guest);
+        TaskController task = new TaskController(jdbi);
+        environment.jersey().register(task);
     }
 }

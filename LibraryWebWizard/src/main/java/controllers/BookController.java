@@ -27,10 +27,11 @@ public class BookController {
     @GET
     @Timed
     public Response getBooks(@QueryParam("id") Optional<Integer> id) {
-        if (id.isPresent())
+        if (id.isPresent()) {
             return Response.ok(bookDAO.get(id.get())).build();
-        else
+        } else {
             return Response.ok(bookDAO.get()).build();
+        }
     }
 
     @POST

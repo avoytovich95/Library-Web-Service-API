@@ -28,9 +28,16 @@ public interface BookDAO{
     public void delete(@Bind("id") int id);
 
     @SqlUpdate("UPDATE book SET " +
-            "status = true," +
+            "status = false," +
             "guest = :guest," +
-            "date = :date," +
+            "date = :date " +
             "WHERE id = :id")
-    public void checkIn(@Bind("guest") String guest, @Bind("date") String date, @Bind("id") int id);
+    public void checkOut(@Bind("guest") String guest, @Bind("date") String date, @Bind("id") int id);
+
+    @SqlUpdate("UPDATE book SET " +
+            "status = true," +
+            "guest = null," +
+            "date = null " +
+            "WHERE id = :id")
+    public void checkIn(@Bind("id") int id);
 }
