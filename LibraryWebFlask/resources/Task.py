@@ -30,10 +30,31 @@ class CheckOut(Resource):
         except IndexError:
             return Response(json.dumps({'error': 'Guest not present'}), 400, mimetype='application/json')
 
-        if guest['status']:
+        if book['status']:
             date = _get_date()
             out_book = book_db.check_out(book['id'], guest['id'], date)
             return jsonify({'guest': guest, 'book': out_book})
+        else:
+            return Response(304)
+
+class CheckIn(Resource):
+    def patch(self):
+        ids = request.json
+        try:
+            book = book_db.get_book(ids['book'])
+        except IndexError:
+            return Response(json.dumps({'error': 'Book not present'}), 400, mimetype='application/json')
+        try:
+            guest = guest_db.get_guest(ids['guest'])
+        except IndexError:
+            return Response(json.dumps({'error': 'Guest not present'}), 400, mimetype='application/json')
+
+        if not book['status']:
+            date = book_db.get_date(book['id'])
+            date_obj = _date_obj(_get_days(date))
+            book_db.check_in(book['id'])
+            in_guest = guest_db.update_guest(guest['id'], date['fee'])
+            return jsonify({'guest': in_guest, 'book': book, 'date': date})
         else:
             return Response(304)
 
