@@ -10,13 +10,15 @@ import database.Guest;
 public class GuestBook {
 
     @JsonProperty
-    private Guest guest;
+    Guest guest;
 
     @JsonProperty
-    private Book book;
+    Book book;
 
     public GuestBook(Guest guest, Book book) {
         this.guest = guest; this.book = book;
     }
+
+    public GuestBook() {}
 }
 

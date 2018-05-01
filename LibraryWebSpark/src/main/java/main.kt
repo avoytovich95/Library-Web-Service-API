@@ -7,20 +7,20 @@ import spark.Spark.*
 fun main(args: Array<String>) {
     port(9999)
 
-    post("/library/latefee") { req, res -> Api.lateFee(req.body()) }
-    put("/library/checkin") { req, res -> Api.checkIn(req.body()) }
-    put("/library/checkout") { req, res -> Api.checkOut(req.body()) }
+    post("/library/latefee") { req, _ -> Api.lateFee(req.body()) }
+    put("/library/checkin") { req, _ -> Api.checkIn(req.body()) }
+    put("/library/checkout") { req, _ -> Api.checkOut(req.body()) }
 
     path("/library/guest") {
-        get("") { req, res -> GuestApi.getGuests() }
-        post("") { req, res -> GuestApi.addGuest(req.body()) }
-        delete("") { req, res -> GuestApi.deleteGuest(req.body()) }
+        get("") { _, _ -> GuestApi.getGuests() }
+        post("") { req, _ -> GuestApi.addGuest(req.body()) }
+        delete("") { req, _ -> GuestApi.deleteGuest(req.body()) }
     }
     path("/library/book") {
-        get("") { req, res -> BookApi.getBooks() }
-        post("") { req, res -> BookApi.addBook(req.body()) }
-        delete("") { req, res -> BookApi.deleteBook(req.body()) }
+        get("") { _, _ -> BookApi.getBooks() }
+        post("") { req, _ -> BookApi.addBook(req.body()) }
+        delete("") { req, _ -> BookApi.deleteBook(req.body()) }
     }
 
-    afterAfter { req, res ->  res.type("application/json") }
+    afterAfter { _, res ->  res.type("application/json") }
 }

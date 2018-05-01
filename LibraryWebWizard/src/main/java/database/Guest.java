@@ -29,11 +29,14 @@ public class Guest {
     @JsonProperty
     private double fee;
 
-    public Guest() {}
+    public Guest() {
+        this.id = randId();
+    }
 
     public Guest(String first, String last) {
         this.first = first;
         this.last = last; this.fee = 0.0;
+        this.id = randId();
     }
 
     public Guest(String id, String first, String last, double fee) {
@@ -56,4 +59,20 @@ public class Guest {
     @JsonIgnore
     public double getFee() { return fee; }
     public void setFee(double fee) { this.fee = fee; }
+
+    public void addFee(double fee) {
+        this.fee += fee;
+    }
+
+    private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWER = UPPER.toLowerCase();
+    private static final String DIGITS = "0123456789";
+    private static final String ALPHA_NUM = UPPER + LOWER + DIGITS;
+
+    private static String randId() {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < 8; ++i)
+            str.append(ALPHA_NUM.charAt((int) (Math.random() * ALPHA_NUM.length())));
+        return str.toString();
+    }
 }

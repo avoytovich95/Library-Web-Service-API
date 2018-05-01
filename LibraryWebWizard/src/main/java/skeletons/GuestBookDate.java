@@ -7,13 +7,7 @@ import database.Guest;
 /**
  * Created by Alex on 4/23/2018.
  */
-public class GuestBookDate {
-
-    @JsonProperty
-    Guest guest;
-
-    @JsonProperty
-    Book book;
+public class GuestBookDate extends GuestBook {
 
     @JsonProperty
     DateObject date;

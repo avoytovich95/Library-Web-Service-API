@@ -39,17 +39,20 @@ public class Book {
     private String guest;
 
     public Book(int id, String title, String author, int year, boolean status, String guest, String date) {
-        this.id = id;
-        this.title = title;  this.author = author;
-        this.year = year;    this.status = status;
-        this.guest = guest;     this.date = date;
+        this.id = id;          this.title = title;
+        this.author = author;  this.year = year;
+        this.status = status;  this.guest = guest;
+        this.date = date;
     }
 
     public Book(String title, String author, int year) {
-        this.title = title; this.author = author; this.year = year;
+        this.title = title; this.author = author;
+        this.year = year;   this.status = true;
     }
 
-    public Book() {}
+    public Book() {
+        this.status = true;
+    }
 
     @JsonIgnore
     public int getId() { return id; }
@@ -78,4 +81,14 @@ public class Book {
     @JsonIgnore
     public String getDate() { return date; }
     public void setDate(String date) {this.date = date; }
+
+    public void checkOut(String guest, String date) {
+        this.guest = guest; this.date = date;
+        this.status = false;
+    }
+
+    public void checkIn() {
+        this.guest = ""; this.date = "";
+        this.status = true;
+    }
 }
