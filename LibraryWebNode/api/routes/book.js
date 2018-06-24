@@ -12,6 +12,11 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/:id', (req, res, next) => {
+    var id = req.params.id
+    console.log('GET: book id: ${id}')
+})
+
 router.post('/', (req, res, next) => {
     console.log('POST: book');
     var bookData = req.body;
