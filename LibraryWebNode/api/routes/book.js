@@ -12,6 +12,19 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/:id', (req, res, next) => {
+    var id = req.params.id
+    console.log('GET: book id: ' + id)
+    var bookid = book.getBook(id)
+    bookid.then((result, err) => {
+        try {
+            res.status(200).json(view.getBook(result))
+        } catch (err) {
+            res.status(404).send('Book id not found')
+        }
+    })
+});
+
 router.post('/', (req, res, next) => {
     console.log('POST: book');
     var bookData = req.body;

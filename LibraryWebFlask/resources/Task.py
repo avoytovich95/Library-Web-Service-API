@@ -6,7 +6,7 @@ from flask_restful import Resource
 from db.Book import BookDB
 from db.Guest import GuestDB
 
-db = _mysql.connect('localhost', 'libraryweb', '', 'librarydb')
+db = _mysql.connect('localhost', 'libraryweb', '13451460v', 'librarydb')
 book_db = BookDB(db)
 guest_db = GuestDB(db)
 
@@ -36,6 +36,7 @@ class CheckOut(Resource):
             return jsonify({'guest': guest, 'book': out_book})
         else:
             return Response(304)
+
 
 class CheckIn(Resource):
     def patch(self):

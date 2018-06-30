@@ -1,5 +1,18 @@
 module.exports = {
 
+    getBook: (book) => {
+        var status
+        if (book[0].checkedOut == 0) status = 'in'
+        else status = 'out'
+        return {
+            id: book[0].id,
+            title: book[0].title,
+            author: book[0].author,
+            year: book[0].year,
+            status: status
+        }
+    },
+
     getBooks: (books) => {
         // console.log(books);
         var array = [];

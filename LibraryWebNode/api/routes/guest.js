@@ -11,4 +11,13 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/:id', (req, res, next) => {
+    var id = req.params.id
+    console.log('GET: guest id: ' + id)
+    var guestid = guest.getGuest(id)
+    guest.then((result) => {
+        res.status(200).json({})
+    })
+})
+
 module.exports = router;

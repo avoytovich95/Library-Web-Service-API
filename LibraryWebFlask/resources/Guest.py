@@ -3,7 +3,7 @@ from flask import request, jsonify, json, Response
 from flask_restful import Resource
 from db.Guest import GuestDB
 
-db = _mysql.connect('localhost', 'libraryweb', '', 'librarydb')
+db = _mysql.connect('localhost', 'libraryweb', '13451460v', 'librarydb')
 guest_db = GuestDB(db)
 
 
@@ -27,5 +27,5 @@ class Guest(Resource):
         _id = request.args.get('id')
         try:
             return jsonify(guest_db.delete_guest(_id))
-        except:
+        except IndexError:
             return Response(json.dumps({'error': 'Guest not present'}), 400, mimetype='application/json')

@@ -3,7 +3,7 @@ from flask import request, jsonify, json, Response
 from flask_restful import Resource
 from db.Book import BookDB
 
-db = _mysql.connect('localhost', 'libraryweb', '', 'librarydb')
+db = _mysql.connect('localhost', 'libraryweb', '13451460v', 'librarydb')
 book_db = BookDB(db)
 
 

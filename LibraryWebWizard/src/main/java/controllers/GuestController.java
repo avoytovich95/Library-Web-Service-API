@@ -36,7 +36,6 @@ public class GuestController {
     @Timed
     public Response addGuest(Guest guest) {
         guestDAO.insert(guest.getId(), guest.getFirst(), guest.getLast());
-//        return Response.accepted(guest).build();
         return Response.created(URI.create("/library/guest?id=" + guest.getId())).entity(guest).build();
     }
 
@@ -46,6 +45,5 @@ public class GuestController {
         Guest guest = guestDAO.get(id);
         guestDAO.delete(id);
         return Response.ok(guest).build();
-//        return Response.status(204).build();
     }
 }

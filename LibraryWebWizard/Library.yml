@@ -9,5 +9,5 @@ server:
 Database:
   driverClass: com.mysql.cj.jdbc.Driver
   user: libraryweb
-  password:
+  password: 13451460v
   url: jdbc:mysql://localhost:3306/librarywizard

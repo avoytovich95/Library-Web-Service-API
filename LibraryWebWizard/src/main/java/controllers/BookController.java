@@ -41,9 +41,6 @@ public class BookController {
     public Response addBook(Book book) throws URISyntaxException{
         bookDAO.insert(book.getTitle(), book.getAuthor(), book.getYear());
         book.setId(bookDAO.getId());
-//        return Response.accepted(book).build();
-//        URI uri = new URI("/book?id=" + book.getId());
-//        return Response.created(uri).build();
         return Response.created(URI.create("/library/book?id="+book.getId())).entity(book).build();
     }
 
@@ -54,6 +51,5 @@ public class BookController {
         book.setStatus(false);
         bookDAO.delete(id);
         return Response.ok(book).build();
-//        return Response.status(204).build();
     }
 }
