@@ -14,6 +14,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     var id = req.params.id
+<<<<<<< HEAD
     console.log('GET: book id: ' + id)
     var bookid = book.getBook(id)
     bookid.then((result, err) => {
@@ -24,6 +25,10 @@ router.get('/:id', (req, res, next) => {
         }
     })
 });
+=======
+    console.log('GET: book id: ${id}')
+})
+>>>>>>> 4316dadd9a13fc2a24dfae8b28cbcc78786cb575
 
 router.post('/', (req, res, next) => {
     console.log('POST: book');
