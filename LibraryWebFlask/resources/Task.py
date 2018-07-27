@@ -1,63 +1,66 @@
 import datetime
-import _mysql
 from datetime import date
 from flask import request, jsonify, json, Response
 from flask_restful import Resource
-from db.Book import BookDB
-from db.Guest import GuestDB
-
-db = _mysql.connect('localhost', 'libraryweb', '13451460v', 'librarydb')
-book_db = BookDB(db)
-guest_db = GuestDB(db)
+from db.BookSQL import BookSQL
+from db.GuestSQL import GuestSQL
+from resources import TYPE
 
 
-class GetDate(Resource):
+class GetDate(Resource, date):
     def get(self):
-        out_date = request.args.get('date')
-        days = _get_days(out_date)
+        # out_date = request.args.get('date')
+        days = _get_days(date)
         return jsonify(_date_obj(days))
 
 
 class CheckOut(Resource):
     def patch(self):
-        ids = request.json
-        try:
-            book = book_db.get_book(ids['book'])
-        except IndexError:
-            return Response(json.dumps({'error': 'Book not present'}), 400, mimetype='application/json')
-        try:
-            guest = guest_db.get_guest(ids['guest'])
-        except IndexError:
-            return Response(json.dumps({'error': 'Guest not present'}), 400, mimetype='application/json')
+        data = request.json
+        book = BookSQL.query.get(data['book'])
+        guest = GuestSQL.query.get(data['guest'])
+        if book is None or guest is None:
+            return _book_guest_error(book, guest)
+        if book.out:
+            return Response(json.dumps({'error': 'Book not available'}), 400, mimetype=TYPE)
 
-        if book['status']:
-            date = _get_date()
-            out_book = book_db.check_out(book['id'], guest['id'], date)
-            return jsonify({'guest': guest, 'book': out_book})
-        else:
-            return Response(304)
+        _date = _get_date()
+        book.check_out(guest.id, _date)
+        return jsonify({'book': book.get_json(), 'guest': guest.get_json()})
 
 
 class CheckIn(Resource):
     def patch(self):
-        ids = request.json
-        try:
-            book = book_db.get_book(ids['book'])
-        except IndexError:
-            return Response(json.dumps({'error': 'Book not present'}), 400, mimetype='application/json')
-        try:
-            guest = guest_db.get_guest(ids['guest'])
-        except IndexError:
-            return Response(json.dumps({'error': 'Guest not present'}), 400, mimetype='application/json')
+        data = request.json
+        book = BookSQL.query.get(data['book'])
+        guest = GuestSQL.query.get(data['guest'])
+        if book is None or guest is None:
+            return _book_guest_error(book, guest)
+        if not book.out:
+            return Response(json.dumps({'error': 'Book already in'}), 400, mimetype=TYPE)
 
-        if not book['status']:
-            date = book_db.get_date(book['id'])
-            date_obj = _date_obj(_get_days(date))
-            book_db.check_in(book['id'])
-            in_guest = guest_db.update_guest(guest['id'], date['fee'])
-            return jsonify({'guest': in_guest, 'book': book, 'date': date})
-        else:
-            return Response(304)
+        _date = _date_obj(_get_days(book.date))
+        book.check_in()
+        guest.add_fee(_date['fee'])
+        return jsonify({'guest': guest.get_json(), 'book': book.get_json(), 'date': _date})
+
+
+def _get_date():
+    _date = datetime.datetime.now().date()
+    if _date.month < 10:
+        # month = '0%d' % _date.month
+        month = f'0{_date.month}'
+    else:
+        # month = '%d' % _date.month
+        month = f'{_date.month}'
+    if _date.day < 10:
+        # day = '0%d' % _date.day
+        day = f'0{_date.day}'
+    else:
+        # day = '%d' % _date.day
+        day = f'{_date.day}'
+    # return '%s%s%d' % (month, day, _date.year)
+    return f'{month}{day}{_date.year}'
 
 
 def _get_days(out_date):
@@ -70,21 +73,17 @@ def _get_days(out_date):
     return days.days
 
 
-def _get_date():
-    _date = datetime.datetime.now().date()
-    if _date.month < 10:
-        month = '0%d' % date.month
-    else:
-        month = '%d' % date.month
-    if _date.day < 10:
-        day = '0%d' % date.day
-    else:
-        day = '%d' % date.day
-    return '%s%s%d' % (month, day, _date.year)
-
-
 def _date_obj(days):
     day = days % 7
     week = int(days / 7)
     fee = week * 0.25
     return {"days": day, "weeks": week, "fee": fee}
+
+
+def _book_guest_error(book, guest):
+    msg = {}
+    if book is None:
+        msg['bookError'] = 'Book not present'
+    if guest is None:
+        msg['guestError'] = 'Guest not present'
+    return Response(json.dumps(msg), 404, mimetype=TYPE)

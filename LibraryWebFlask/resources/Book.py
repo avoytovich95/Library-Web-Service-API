@@ -1,31 +1,39 @@
-import _mysql
 from flask import request, jsonify, json, Response
 from flask_restful import Resource
-from db.Book import BookDB
-
-db = _mysql.connect('localhost', 'libraryweb', '13451460v', 'librarydb')
-book_db = BookDB(db)
+from db.BookSQL import BookSQL
+from resources import TYPE
 
 
 class Book(Resource):
-    def get(self):
-        _id = request.args.get('id')
-        if _id is None:
-            return jsonify(book_db.get_books())
+    def get(self, book_id=None):
+        if book_id is None:
+            results = BookSQL.query.all()
+            return Response(json.dumps(results, default=lambda o: o.get_json()), 200, mimetype=TYPE)
         else:
-            try:
-                return jsonify(book_db.get_book(_id))
-            except IndexError:
-                return Response(json.dumps({'error': 'Book not present'}), 400, mimetype='application/json')
+            book = BookSQL.query.get(book_id)
+            if book is not None:
+                return jsonify(book.get_json())
+            else:
+                return Response(json.dumps({'message': 'Book not present'}), 404, mimetype=TYPE)
 
     def post(self):
-        book = request.json
-        book_obj = book_db.insert_book(book['title'], book['author'], book['year'])
-        return Response(json.dumps(book_obj), 201, mimetype='application/json')
-
-    def delete(self):
-        _id = int(request.args.get('id'))
+        body = request.json
         try:
-            return jsonify(book_db.delete_book(_id))
-        except IndexError:
-            return Response(json.dumps({'error': 'Book not present'}), 400, mimetype='application/json')
+            book = BookSQL(body['title'], body['author'], body['year'])
+            book.add()
+            response = Response(json.dumps(book.get_json()), 201, mimetype=TYPE)
+            response.headers['location'] = request.base_url + f'/{book.id}'
+            return response
+        except KeyError:
+            return Response(json.dumps({'message': 'Missing required info'}), 422, mimetype=TYPE)
+
+    def delete(self, book_id=None):
+        if book_id is not None:
+            book = BookSQL.query.get(book_id)
+            if book is not None:
+                book.delete()
+                return jsonify(book.get_json())
+            else:
+                return Response(json.dumps({'message': 'Book not present'}), 404, mimetype=TYPE)
+        else:
+            return Response(json.dumps({'message': 'Missing book id'}), 422, mimetype=TYPE)

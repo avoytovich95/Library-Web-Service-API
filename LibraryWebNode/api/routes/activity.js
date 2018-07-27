@@ -1,21 +1,84 @@
 const express = require('express');
 const router = express.Router();
-var view = require('./../views/activityView');
+const { Book, Guest } = require('../db/connection');
 
-router.post('/latefee', (req, res, next) => {
-    const date = req.body.date;
-    total = getDays(date);
-    days = total % 7;
-    weeks = Math.floor(total / 7);
-    fee = weeks * .25;
+router.get('/latefee/:date', (req, res, next) => {
+    console.log('GET: late fee');
+    var date = getLateFee(req.params.date);
+    res.status(200).json(date);
+});
+router.get('/latefee', (req, res, next) => {
+    res.status(400).json({message: 'Missing date'});
+});
 
-    res.status(200).json(
-        view.lateFee(days, weeks, fee)
-    );
+router.patch('/checkout', (req, res, next) => {
+    console.log('PATCH: check out');
+    var data = req.body;
+    Book.findById(data.book).then(book => {
+        Guest.findById(data.guest).then(guest => {
+            if (book != null && guest != null) {
+                if (book.status) {
+                    book.checkOut(guest.id, getDate());
+                    book.save().then(() => {
+                        res.status(200).json({book: book, guest: guest});
+                    });
+                } else
+                res.status(400).json({message: 'Book unavailable'})
+            } else
+                res.status(404).json(bookGuestError(book, guest));
+        });
+    });
+});
+
+// Modify how the guest is dealt with
+// Either get the id from the book and not require it
+// or check to make sure they're the same
+router.patch('/checkin', (req, res, next) => {
+    console.log('PATCH: check in');
+    var data = req.body;
+    Book.findById(data.book).then(book => {
+        Guest.findById(data.guest).then(guest => {
+            if (book != null && guest != null) {
+                if (!book.status) {
+                    var date = getLateFee(book.date);
+                    guest.addFee(date.fee);
+                    book.checkIn();
+                    book.save().then(() => {
+                        guest.save().then(() => {
+                            res.status(200).json({
+                                book: book,
+                                guest: guest,
+                                date: date
+                            });
+                        });
+                    });
+                }else
+                    res.status(400).json({message: 'Book already in'});
+            } else
+                res.status(404).json(bookGuestError(book, guest));
+        });
+    });
 });
 
 module.exports = router;
 
+/**
+ * Creates and returns an object with the number of days and week between
+ * the date passed, and the fee of $0.25 per week
+ * @param {String} date 
+ */
+function getLateFee(date) {
+    total = getDays(date);
+    days = total % 7;
+    weeks = Math.floor(total / 7);
+    fee = weeks * .25;
+    return { days: days, weeks: weeks, fee: fee };
+}
+
+/**
+ * Gets the number of days between the date parameter and current date
+ * @param {String} date Date parameter
+ */
 function getDays(date) {
     dt1 = new Date(convert(date));
     dt2 = new Date();
@@ -24,8 +87,40 @@ function getDays(date) {
                 /(1000 * 60 * 60 * 24));
 }
 
+/**
+ * Converts MMddYYYY format to MM/dd/YYYY
+ * @param {String} date date parameter passed
+ */
 function convert(date) {
     return date.slice(0,2) +
       '/' + date.slice(2,4) +
         '/' + date.slice(4);
+}
+
+/**
+ * Returns a date string in the MMddYYYY format
+ */
+function getDate() {
+    var date = new Date();
+    var day;
+    var month;
+    if (date.getMonth() + 1 < 10) month = `0${date.getMonth() + 1}`;
+    else month = `${date.getMonth() + 1}`;
+    if (date.getDate() < 10) day = `0${date.getDate()}`;
+    else day = `${date.getDate()}`;
+    return `${month}${day}${date.getFullYear()}`;
+}
+
+/**
+ * 
+ * @param {object} book 
+ * @param {object} guest 
+ */
+function bookGuestError(book, guest) {
+    var msg = '';
+    if (book == null && guest == null) msg = 'Book and guest';
+    else if (book == null) msg = 'Book';
+    else if (guest == null) msg = 'Guest';
+    msg += ' id not found';
+    return {message: msg};
 }

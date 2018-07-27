@@ -1,55 +1,50 @@
 const express = require('express');
 const router = express.Router();
-var book = require('./../db/bookdb');
-var view = require('./../views/bookView');
-
+const { Book, _ } = require('../db/connection');
 
 router.get('/', (req, res, next) => {
     console.log('GET: book');
-    var books = book.getBooks();
-    books.then((result) => {
-        res.status(200).json(view.getBooks(result))
+    Book.findAll().then(books => {
+        res.status(200).json(books);
     });
 });
 
 router.get('/:id', (req, res, next) => {
-    var id = req.params.id
-<<<<<<< HEAD
-    console.log('GET: book id: ' + id)
-    var bookid = book.getBook(id)
-    bookid.then((result, err) => {
-        try {
-            res.status(200).json(view.getBook(result))
-        } catch (err) {
-            res.status(404).send('Book id not found')
-        }
-    })
+    var id = req.params.id;
+    console.log(`GET: book ${id}`);
+    Book.findById(id).then(book => {
+        if (book != null)
+            res.status(200).json(book);
+        else
+            res.status(404).json({message: 'Book id not found'});
+    });
 });
-=======
-    console.log('GET: book id: ${id}')
-})
->>>>>>> 4316dadd9a13fc2a24dfae8b28cbcc78786cb575
 
 router.post('/', (req, res, next) => {
     console.log('POST: book');
     var bookData = req.body;
-    var idData = book.getCurrentId();
-    idData.then((result) => {
-        id = result[0].id + 1;
-        book.addBook(id, bookData.title, bookData.author, bookData.bookYear);
-        res.status(200).json(view.addBook(id, bookData));
+    Book.create(bookData).then(book => {
+        res.location(`${req.headers.host}/library/book/${book.id}`).status(201).json(book);
+    }).catch(err => {
+        console.log(err);
+        res.status(400).json({message: 'Missing required info'});
     });
 });
 
+router.delete('/:id', (req, res, next) => {
+    var id = req.params.id;
+    console.log(`DELETE: book ${id}`);
+    Book.findById(id).then(book => {
+        if (book != null) {
+            book.destroy();
+            res.status(200).json(book);
+        } else   
+            res.status(404).json({message: 'Book id not found'});
+    });
+});
 router.delete('/', (req, res, next) => {
     console.log('DELETE: book');
-    var id = req.body.id;
-    var bookData = book.getBook(id);
-    bookData.then((result) => {
-        var out = view.deleteBook(id, result[0]);
-        book.deleteBook(id);
-        res.status(200).json(out);
-    });
+    res.status(400).json({message: 'Missing book id'});
 });
 
 module.exports = router;
