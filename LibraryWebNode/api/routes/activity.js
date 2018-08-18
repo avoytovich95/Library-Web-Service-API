@@ -65,7 +65,8 @@ module.exports = router;
 /**
  * Creates and returns an object with the number of days and week between
  * the date passed, and the fee of $0.25 per week
- * @param {String} date 
+ * @param {String} date Date provided
+ * @return {object} Object containing days, weeks, and total fee
  */
 function getLateFee(date) {
     total = getDays(date);
@@ -77,7 +78,8 @@ function getLateFee(date) {
 
 /**
  * Gets the number of days between the date parameter and current date
- * @param {String} date Date parameter
+ * @param {String} date Date provided
+ * @return {number} Total number of days between current date and date provided
  */
 function getDays(date) {
     dt1 = new Date(convert(date));
@@ -89,7 +91,8 @@ function getDays(date) {
 
 /**
  * Converts MMddYYYY format to MM/dd/YYYY
- * @param {String} date date parameter passed
+ * @param {String} date Date provided
+ * @return {String} Converted date format
  */
 function convert(date) {
     return date.slice(0,2) +
@@ -99,6 +102,7 @@ function convert(date) {
 
 /**
  * Returns a date string in the MMddYYYY format
+ * @return {String} Current date
  */
 function getDate() {
     var date = new Date();
@@ -112,9 +116,10 @@ function getDate() {
 }
 
 /**
- * 
- * @param {object} book 
- * @param {object} guest 
+ * Checks if the object are null, and returns a message depending
+ * on the existance of the objects
+ * @param {object} book  Book object
+ * @param {object} guest Guest object
  */
 function bookGuestError(book, guest) {
     var msg = '';

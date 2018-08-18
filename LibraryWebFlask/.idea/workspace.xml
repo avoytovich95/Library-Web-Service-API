@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="056fba80-f02e-406e-8990-b9dbfd349bd4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/../FrontEnd/LibraryAndroid/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../FrontEnd/LibraryAndroid/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/BookSQL.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/GuestSQL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Book.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Book.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Guest.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Guest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Task.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/api/routes/activity.js" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebNode/api/routes/activity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/api/routes/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebNode/api/routes/book.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/api/routes/guest.js" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebNode/api/routes/guest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/api/views/activityView.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/api/views/bookView.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/api/views/guestView.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebNode/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebNode/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebNode/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebNode/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebWizard/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebWizard/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebWizard/LibraryWebWizard (1).iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LibraryWebWizard/LibraryWebWizard.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../LibraryWebWizard/LibraryWebWizard.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -193,7 +171,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="1490" />
     <option name="width" value="1522" />
     <option name="height" value="1932" />
@@ -315,7 +293,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="745" y="0" width="761" height="966" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
